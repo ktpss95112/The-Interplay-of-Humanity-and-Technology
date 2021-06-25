@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>科技 - 不同世代的同年</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/vue@3.0.5"></script>
+    <script src="qrcode.min.js"></script>
+    <script src="const.js"></script>
+  </head>
+  <body>
+    <main id="app">
+      <div class="container">
+        <a @click="showQRCode = true" class="qrcode-a"><img src="qrcode.svg" class="qrcode-icon"> QR Code</a>
+        <transition name="fade">
+          <div @click="showQRCode = false" v-show="showQRCode" class="qrcode-container">
+            <div id="qrcode"></div>
+          </div>
+        </transition>
+
+        <transition name="magnify-fade">
+          <parent-photo @close="showParentPhoto = false" v-show="showParentPhoto"></parent-photo>
+        </transition>
+
+        <img src="title.svg" class="title-img">
+        <div class="card-title">集點卡 <span v-if="solve.length === 5 && !isAwarded">(可兌換)</span> <span v-if="isAwarded">(已兌換)</span></div>
+        <div class="middle-bar">
+          <div v-for="index of [1, 2, 3, 4, 5]" class="card-item-container">
+            <div class="circle stamp-circle">
+              <div v-if="solve.includes(index)" class="circle stamp-center-circle breathing" :style="{ backgroundColor: tasks[index].color, opacity: '70%' }"></div>
+            </div>
+            <div class="card-label"> {{ tasks[index].title[0] }} <br> {{ tasks[index].title[1] }} </div>
+          </div>
+        </div>
+        <main-content @show-parent-photo="showParentPhoto = true"></main-content>
+      </div>
+      <div class="background-container">
+      </div>
+    </main>
+
+    <template id="main-content-template">
+      <transition name="fade" mode="out-in">
+        <div v-if="currentState === 0" class="main-content-container">
+          <div class="first-row">
+            <select-item @click-item="currentState = $event" :item="1"></select-item>
+            <select-item @click-item="currentState = $event" :item="2"></select-item>
+          </div>
+          <div class="second-row">
+            <select-item @click-item="currentState = $event" :item="3"></select-item>
+            <select-item @click-item="currentState = $event" :item="4"></select-item>
+            <select-item @click-item="currentState = $event" :item="5"></select-item>
+          </div>
+        </div>
+        <div v-else class="main-content-container">
+          <div class="intro-container">
+            <select-item :item="currentState"></select-item>
+            <div class="intro-text">
+              <p>
+                <button @click="currentState = 0" class="go-back-button">回上一頁</button>
+                {{ tasks[currentState].content }}
+                <a v-if="currentState === 1" @click="$emit('show-parent-photo')">此處</a>
+                <a v-if="currentState === 2" href="essay.html" target="_blank">此處</a>
+                <button @click="currentState = 0" class="go-back-button">回上一頁</button>
+              </p>
+            </div>
+          </div>
+        </div>
+      </transition>
+    </template>
+
+    <template id="select-item-template">
+      <div class="select-item-container">
+        <div @click="$emit('click-item', item)" class="circle select-circle breathing" :style="{ backgroundColor: tasks[item].color, opacity: '70%' }"></div>
+        <div class="select-label"> {{ tasks[item].title[0] }} <br> {{ tasks[item].title[1] }} </div>
+      </div>
+    </template>
+
+    <template id="parent-photo-template">
+      <div class="parent-photo-container">
+        <button @click="$emit('close')" class="exit-button">X</button>
+
+        <h3>跟你說喔！以前那個時候……</h3>
+        <p>
+          爸媽的學生時代，正值台灣經濟起飛，戒嚴也還沒解除。生活中除了念書，往往還要擔負家裡的經濟重擔，並留心學校各種嚴格的規定。但有音樂相伴，生活似乎也不那麼苦了，在串流平台還沒盛行的年代，聽音樂可比現在有儀式感多了，全家圍著一台唱片機，安靜地聽著樂音徐徐流出⋯⋯
+        </p>
+        <img src="img1.jpg">
+
+        <hr>
+
+        <h3>什麼？買零食你去超商？！</h3>
+        <p>
+          在沒有雷神巧克力、沒有珍奶冰棒、沒有 LADY M 的年代，嘴饞時要吃什麼才好呢？對了！去柑仔店走一趟好了！裡面的零食多樣又便宜，小包裝也方便口袋不深的學生族群購買；又或著上街去找那沿街叫喚的麵茶小販，來一碗熱呼呼的麵茶；有或著過年應景吃得南棗核桃糕，讓你步步高升⋯⋯ <br> 古早味零食，也是很厲害的呢！
+        </p>
+        <img src="img2.jpg">
+
+        <hr>
+
+        <h3>你知道嗎？這是我心目中永遠的經典</h3>
+        <p>
+          什麼？竟然覺得父母的童年只有黑白電視？那就大錯特錯囉！其實 1950 年代末期，彩色動畫就開始陪伴著我們的父母走過童年，吹起一波波的卡通熱潮，讓我們沿著記憶的長河行旅，搭上卡通時光機，尋訪熟悉的主題曲，再度邂逅經典吧！
+        </p>
+        <img src="img3.jpg">
+
+        <hr>
+
+        <h3>曾經也玩轉那些年</h3>
+        <p>
+          跳房子、打彈珠、尪仔標……，這些聽起來耳熟能詳的遊戲你都知道怎麼玩嗎？其實這些童玩大部分都有很多種的玩法，是父母年代的孩子們快樂的泉源之一，來聽聽看我們介紹的其中一種玩法，然後回家和爸爸媽媽分享吧！
+        </p>
+        <img src="img4.jpg">
+
+      </div>
+    </template>
+
+    <script src="index.js"></script>
+
+  </body>
+</html>

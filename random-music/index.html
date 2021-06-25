@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Random Music</title>
+
+    <!-- <style>
+      .size {
+        height: 600px;
+        width: 400px;
+      }
+
+      #stage {
+        position: relative;
+      }
+
+      canvas { position: absolute; }
+      #ball-layer { z-index: 2; }
+      #background-layer { z-index: 1; }
+    </style> -->
+
+    <script>
+      if (!(window.AudioContext || window.webkitAudioContext)) {
+        alert('Your browser does not support Web Audio API!')
+      }
+    </script>
+    <script src="./index.js"></script>
+
+  </head>
+  <body>
+    <!-- <div id="stage" class="size">
+      <canvas id="ball-layer" class="size"></canvas>
+      <canvas id="background-layer" class="size"></canvas>
+    </div> -->
+
+    <button id="start-button" onclick="runSpecial()">play a random music</button>
+  </body>
+</html>

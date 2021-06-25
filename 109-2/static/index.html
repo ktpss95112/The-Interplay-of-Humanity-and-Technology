@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <script src="wordcloud2.js"></script>
+  <title>標籤</title>
+</head>
+<body class="full-screen-size">
+  <div class="flex-container flex-vertical full-screen-size color-background">
+    <div class="flex-item canvas-container">
+      <div class="circle-gradient"></div>
+      <canvas id="word-cloud0" width="600" height="400"></canvas>
+      <canvas id="word-cloud1" width="600" height="400"></canvas>
+    </div>
+    <br>
+    <label class="flex-item big-text shadow">你，被貼了什麼標籤？</label>
+    <input class="flex-item" id="input-word" type="text">
+    <button class="flex-item" id="submit-button">送出</button>
+  </div>
+  <script src="index.js"></script>
+</body>
+</html>
